@@ -1,0 +1,43 @@
+{
+  "name": "vhs-tape",
+  "version": "0.0.0",
+  "description": "A test harness for browser elements and components",
+  "main": "index.js",
+  "browserify": {
+    "transform": [
+      "csjs-injectify"
+    ]
+  },
+  "scripts": {
+    "test": "run-s test:*",
+    "test:lint": "standard",
+    "test:deps": "dependency-check package.json --missing --unused --no-dev",
+    "start": "run-s watch",
+    "build": "npm run clean && run-p build:*",
+    "build:js": "browserify src/index.js --debug | exorcist dist/bundle.js.map > dist/bundle.js",
+    "watch": "npm run clean && run-p watch:*",
+    "watch:js": "budo src/index.js:bundle.js --dir dist --live --open",
+    "clean": "rimraf dist && mkdirp dist"
+  },
+  "author": "Bret Comnes <bcomnes@gmail.com> (https://bret.io/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@tap-format/spec": "^0.2.0",
+    "browserify": "^16.0.0",
+    "budo": "^11.0.0",
+    "dependency-check": "^3.0.0",
+    "exorcist": "^1.0.0",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.0.0",
+    "postcss": "^7.0.0",
+    "rimraf": "^2.5.4",
+    "snazzy": "^8.0.0",
+    "standard": "^12.0.1",
+    "tape": "^4.6.2"
+  },
+  "dependencies": {
+    "csjs": "^1.1.0",
+    "csjs-injectify": "^1.0.1",
+    "hui": "^1.2.5"
+  }
+}
