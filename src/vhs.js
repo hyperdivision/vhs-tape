@@ -32,7 +32,14 @@ function createTestHarness (t, element) {
         onload.delete(node, resolveFn)
         resolve()
       }
-      node.isConnected ? resolve() : onload(node, resolveFn)
+      node.isConnected ? resolveFn() : onload(node, resolveFn)
+    }),
+    unload: node => new Promise(resolve => {
+      const resolveFn = () => {
+        onload.delete(node, undefined, resolveFn)
+        resolve()
+      }
+      !node.isConnected ? resolveFn() : onload(node, undefined, resolveFn)
     }),
     raf: () => new Promise(resolve => window.requestAnimationFrame(() => resolve()))
   })
