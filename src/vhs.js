@@ -1,5 +1,6 @@
 const html = require('hui/html')
 const tape = require('tape')
+const onload = require('fast-on-load')
 
 const testBody = html`<div id="vhs-test-body"></div>`
 document.body.appendChild(testBody)
@@ -25,6 +26,14 @@ module.exports = queueTest
 function createTestHarness (t, element) {
   return Object.assign(t, {
     element,
-    sleep: ms => new Promise((resolve) => setTimeout(resolve, ms))
+    sleep: ms => new Promise((resolve) => setTimeout(resolve, ms)),
+    onload: node => new Promise(resolve => {
+      const resolveFn = () => {
+        onload.delete(node, resolveFn)
+        resolve()
+      }
+      node.isConnected ? resolve() : onload(node, resolveFn)
+    }),
+    raf: () => new Promise(resolve => window.requestAnimationFrame(() => resolve()))
   })
 }

@@ -38,9 +38,10 @@ vhs('A simple mounting of some html async/await', async t => {
   const exampleComponent = new Example('This should be loaded')
 
   t.element.appendChild(exampleComponent.element)
-  await t.sleep(500)
+  await t.onload(exampleComponent.element)
+
   exampleComponent.element.querySelector('button').click()
-  await t.sleep(500)
+  await t.raf()
   t.equal(exampleComponent.element.querySelector('.counter').innerText, 'Counter: 1')
 })
 

@@ -4,9 +4,7 @@
   "description": "A test harness for browser elements and components",
   "main": "index.js",
   "browserify": {
-    "transform": [
-      "csjs-injectify"
-    ]
+    "transform": []
   },
   "scripts": {
     "test": "run-s test:*",
@@ -36,8 +34,7 @@
     "tape": "^4.6.2"
   },
   "dependencies": {
-    "csjs": "^1.1.0",
-    "csjs-injectify": "^1.0.1",
+    "fast-on-load": "hyperdivision/fast-on-load",
     "hui": "^1.2.5"
   }
 }
