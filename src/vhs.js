@@ -6,6 +6,8 @@ const testBody = html`<div id="vhs-test-body"></div>`
 document.body.appendChild(testBody)
 
 function create (delay) {
+  if (!delay) delay = Number(process.env.VHS_DELAY) || 0
+
   function queueTest (description, testFn) {
     tape(description, t => {
       const testElementGroup = html`<div>
