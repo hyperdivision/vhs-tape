@@ -41,6 +41,13 @@ function createTestHarness (t, element) {
       }
       !node.isConnected ? resolveFn() : onload(node, undefined, resolveFn)
     }),
-    raf: () => new Promise(resolve => window.requestAnimationFrame(() => resolve()))
+    raf: () => new Promise(resolve => window.requestAnimationFrame(() => resolve())),
+    click: (stringOrElement) => new Promise((resolve, reject) => {
+      if (typeof stringOrElement === 'string') stringOrElement = element.querySelector(stringOrElement)
+      if (!(stringOrElement instanceof window.HTMLElement)) return reject(new Error('stringOrElement needs to be an instance of HTMLElement or a querySelector that resolves to a HTMLElement'))
+      const el = stringOrElement
+      el.click()
+      window.requestAnimationFrame(() => resolve())
+    })
   })
 }

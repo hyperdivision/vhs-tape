@@ -40,9 +40,19 @@ vhs('A simple mounting of some html async/await', async t => {
   t.element.appendChild(exampleComponent.element)
   await t.onload(exampleComponent.element)
 
-  exampleComponent.element.querySelector('button').click()
-  await t.raf()
+  // t.click takes a query selector rooted from the test element
+  await t.click('button')
   t.equal(exampleComponent.element.querySelector('.counter').innerText, 'Counter: 1')
+
+  // t.click also takes an element
+  await t.click(t.element.querySelector('button'))
+  t.equal(exampleComponent.element.querySelector('.counter').innerText, 'Counter: 2')
+
+  // you can also directly interact with elements but you may need to await t.raf()
+  // to wait for updates
+  t.element.querySelector('button').click()
+  await t.raf()
+  t.equal(exampleComponent.element.querySelector('.counter').innerText, 'Counter: 3')
 })
 
 vhs('A simple mounting of some html', t => {
