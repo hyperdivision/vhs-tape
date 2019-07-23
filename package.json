@@ -2,7 +2,7 @@
   "name": "vhs-tape",
   "version": "0.0.0",
   "description": "A test harness for browser elements and components",
-  "main": "index.js",
+  "main": "src/vhs.js",
   "browserify": {
     "transform": []
   },
