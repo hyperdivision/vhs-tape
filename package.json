@@ -33,7 +33,7 @@
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "fast-on-load": "hyperdivision/fast-on-load",
+    "fast-on-load": "^1.1.0",
     "hui": "^1.2.5",
     "tape": "^4.6.2"
   }
