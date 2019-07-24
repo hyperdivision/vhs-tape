@@ -28,6 +28,10 @@ function create (delay) {
     return create(ms)
   }
 
+  queueTest.skip = function (description, testFn) {
+    tape.skip(description, testFn)
+  }
+
   return queueTest
 
   function createTestHarness (t, element) {
@@ -65,7 +69,7 @@ function create (delay) {
           const el = t.element.querySelector(':focus')
           if (!el) return
           await t.delay()
-          el.dispatchEvent(new KeyboardEvent(event || 'keydown', {key: c}))
+          el.dispatchEvent(new window.KeyboardEvent(event || 'keydown', { key: c }))
         }
         return t.delay()
       }
@@ -77,7 +81,6 @@ function create (delay) {
       return stringOrElement
     }
   }
-
 }
 
 module.exports = create(0)
