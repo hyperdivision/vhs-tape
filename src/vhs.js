@@ -28,6 +28,10 @@ function create (delay) {
     return create(ms)
   }
 
+  queueTest.skip = function (description, testFn) {
+    tape.skip(description, testFn)
+  }
+
   return queueTest
 
   function createTestHarness (t, element) {
