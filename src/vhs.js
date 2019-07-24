@@ -19,7 +19,7 @@ function create (delay) {
       testBody.appendChild(testElementGroup)
       const maybePromise = testFn(createTestHarness(t, testElement))
       if (maybePromise && maybePromise.then) {
-        maybePromise.then(t.end).catch(t.error)
+        maybePromise.then(t.end).catch(t.fail)
       }
     })
   }
