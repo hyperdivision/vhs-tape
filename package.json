@@ -9,7 +9,8 @@
   "scripts": {
     "test": "run-s test:*",
     "test:lint": "standard",
-    "test:deps": "dependency-check package.json --missing --unused --no-dev",
+    "test:deps": "dependency-check package.json --missing --unused --no-dev -i tape-run",
+    "test:example": "browserify example.js | tape-run",
     "start": "run-s watch",
     "build": "npm run clean && run-p build:*",
     "build:js": "browserify src/index.js --debug | exorcist dist/bundle.js.map > dist/bundle.js",
@@ -35,6 +36,7 @@
   "dependencies": {
     "fast-on-load": "^1.1.0",
     "hui": "^1.2.5",
-    "tape": "^4.6.2"
+    "tape": "^4.6.2",
+    "tape-run": "^6.0.0"
   }
 }
