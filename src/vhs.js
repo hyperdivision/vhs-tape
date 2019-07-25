@@ -19,7 +19,7 @@ function create (delay) {
       testBody.appendChild(testElementGroup)
       const maybePromise = testFn(createTestHarness(t, testElement))
       if (maybePromise && maybePromise.then) {
-        maybePromise.then(t.end).catch(t.fail)
+        maybePromise.then(t.end).catch(t.end)
       }
     })
   }
@@ -41,14 +41,14 @@ function create (delay) {
       onload: node => new Promise(resolve => {
         const resolveFn = () => {
           onload.delete(node, resolveFn)
-          resolve()
+          t.delay().then(resolve)
         }
         node.isConnected ? resolveFn() : onload(node, resolveFn)
       }),
       unload: node => new Promise(resolve => {
         const resolveFn = () => {
           onload.delete(node, undefined, resolveFn)
-          resolve()
+          t.delay().then(resolve)
         }
         !node.isConnected ? resolveFn() : onload(node, undefined, resolveFn)
       }),
