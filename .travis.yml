@@ -1,15 +1,21 @@
 dist: xenial
 language: node_js
 node_js:
-  - 'node'
+- node
 addons:
   apt:
     packages:
-      - xvfb
+    - xvfb
 cache: npm
 install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - npm i
+- export DISPLAY=':99.0'
+- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+- npm i
 script:
-  - npm test
+- npm test
+env:
+  global:
+    secure: QQddyqf/vTyMTyNCfFgesEoK2VvOErHRu54QUHoh7bUoZ3Z/aNJ9wyO8weg16s+MMN9ckaHDcMmlk+kBElc6lvN33h8mYdMJ9GGEuY94Wx4u8anIK3k6kxpR3bGRrvmh0FcwhpjJCFlyTM5SMXwq2dN39E8d/HsnGlnWbr6btKTkve+iAWdbc4K74oh8mwZEv0/+co0kbgeUjC2tZU5hnqe/36ZsJ1Elf+1rPetYfvZHwlAPjRIRDcrk1Sip7VzLi9pKv2ujqD900QTPodXPVHErnZVZPsfsro/asfsA8un3D70aO2xZpDZ6p5Q1nCR/yS8RS8NG3BK+5s9wzPHfRFMTLFL9aKXfoRHd65HyhaVkMr5cd+cedQsBcvCHQYxi3jfAI7PDMYC/g5TauVqs2bXxdzlYDpO9i8Ayo3Yv3TiDKghza2ybUyISoLF2UpMAIWm/w92SMFxpxKTx9mnsSNPnaTXewPeJhzN85t4MdNOCsbxtWAk7a7KzUg3SehHab+bmwnMH08tUL1TMQbp8TjyKP8u+MZlTEd4VTNrEmtcl1x3pLcV1KtKEcYTFEh2rHIoeKHfb15DIRkhBWoqdzNcW6JNhsVomHzoZwtMBhpeArOvuJ2Sa3ze+vNaP6/4SdYKxCkRtmPlD8God8l63tWXaV5dFxfBQmyVa4oKuhUE=
+deploy:
+  api_key:
+    secure: KokS77cteqP1mJ7gipnF41YdFdkEodsRJ5qy52AcZ34GCDzxDu5btt3bVdBMSA4XvpjQJ6m8FoPWTex6WfItS1UeH0fopfVEDmIqoAIK7yZMR0zP+C1igwIDRqypG6zr/qvhGRtYoTuyKfjjAs8PjoREeXTUnuKKoJ69bVuRhXwuiyjrBe3wre2aJYOgecBULxdMWuyCXAIofZjm76POL3CwdtqUBubpswM2NXbv/lmuzt1AM5Q65Oe23zFVg2WDO+F5hLF4YDYve/AG5rYmqTqAjZT/T03zuqMFZoDPTEk62Y5TPOZo3U+8vDCvwqliiFjLnm4jsZTitaFcOBH1QxAssC+MWJdn1nDzx7mMCEzzw/EFLYcARDsclGknMTVoagFvh8zPJ80jDPh5z+pVGdvzS0ZOiNmNxx0/pBIcqZgWLxItlzt2W1vn8Krsxkws9/9oIZK6qD6AbgTY4+rU/luzAn1J94hm6JToBBUGvGS8TRokA9UQAF+TJuygdFFx3nhIJWhJ7wTSSnOBsQhAhupjcpr5E6gvf0SUSbIuIr08D9dPjfHpwt+4gis7vQXZcqRYvaOrSBKtHpbGLwtaXPQxA285c37v7rPQZwNCZLAE3R5PiIsnT4nT2v3C+MJqJnGsa+6hwvPv4DlMxQDA5V0Dml/HTah9MdeC0EgNXbE=
