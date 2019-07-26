@@ -1,5 +1,7 @@
 # vhs-tape
 
+An [tape](https://github.com/substack/tape) extension for testing frontend components.
+
 ## Usage
 
 ```js
@@ -71,6 +73,8 @@ vhs('A simple mounting of some html', t => {
   }, 500)
 })
 ```
+
+See example.js for more helper functions.
 
 
 ## See also

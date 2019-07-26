@@ -1,4 +1,4 @@
-const vhs = require('./src/vhs')
+const vhs = require('.')
 const MorphComponent = require('hui/morph')
 const html = require('hui/html')
 

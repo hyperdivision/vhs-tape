@@ -1,8 +1,10 @@
-const html = require('hui/html')
 const tape = require('tape')
 const onload = require('fast-on-load')
 
-const testBody = html`<div id="vhs-test-body"></div>`
+const createElement = document.createElement.bind(document)
+
+const testBody = createElement('div')
+testBody.id = 'vhs-test-body'
 document.body.appendChild(testBody)
 
 function create (delay) {
@@ -10,11 +12,15 @@ function create (delay) {
 
   function queueTest (description, testFn) {
     tape(description, t => {
-      const testElementGroup = html`<div>
-        <div>${description}</div>
-          <div class="test-element"></div>
-        </div>`
-      const testElement = testElementGroup.querySelector('.test-element')
+      const testElementGroup = createElement('div')
+
+      const descriptionEl = createElement('div')
+      descriptionEl.innerText = description
+      testElementGroup.appendChild(descriptionEl)
+
+      const testElement = createElement('div')
+      testElement.classList.add('test-element')
+      testElementGroup.appendChild(testElement)
 
       testBody.appendChild(testElementGroup)
       const maybePromise = testFn(createTestHarness(t, testElement))
