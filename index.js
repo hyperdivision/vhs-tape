@@ -38,6 +38,10 @@ function create (delay) {
     tape.skip(description, testFn)
   }
 
+  queueTest.slow = function (description, testFn) {
+    return create(500)(description, testFn)
+  }
+
   return queueTest
 
   function createTestHarness (t, element) {
