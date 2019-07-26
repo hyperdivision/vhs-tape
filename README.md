@@ -1,6 +1,6 @@
 # vhs-tape
 
-An [tape](https://github.com/substack/tape) extension for testing frontend components.
+A [tape](https://github.com/substack/tape) extension for testing frontend components.
 
 ## Usage
 
