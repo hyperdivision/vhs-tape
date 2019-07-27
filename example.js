@@ -1,41 +1,8 @@
 const vhs = require('.')
-const MorphComponent = require('hui/morph')
-const html = require('hui/html')
-
-class Example extends MorphComponent {
-  constructor (loadMsg) {
-    super()
-
-    this._loadMsg = loadMsg
-    this._msg = 'Hello, not mounted yet'
-    this._count = 0
-
-    this.onclick = this.onclick.bind(this)
-  }
-
-  createElement () {
-    return html`
-      <div>
-        ${this._msg}
-        <button onclick=${this.onclick}>Click me</button>
-        <div class="counter">Counter: ${this._count}</div>
-      </div>
-    `
-  }
-
-  onload () {
-    this._msg = this._loadMsg
-    this.update()
-  }
-
-  onclick () {
-    this._count++
-    this.update()
-  }
-}
+const { Simple, Timer } = require('./components')
 
 vhs('A simple mounting of some html async/await', async t => {
-  const exampleComponent = new Example('This should be loaded')
+  const exampleComponent = new Simple('This should be loaded')
 
   t.element.appendChild(exampleComponent.element)
   await t.onload(exampleComponent.element)
@@ -56,7 +23,7 @@ vhs('A simple mounting of some html async/await', async t => {
 })
 
 vhs('A simple mounting of some html', t => {
-  const exampleComponent = new Example('This should be loaded')
+  const exampleComponent = new Simple('This should be loaded')
 
   t.element.appendChild(exampleComponent.element)
 
@@ -64,4 +31,16 @@ vhs('A simple mounting of some html', t => {
     exampleComponent.element.querySelector('button').click()
     t.end()
   }, 500)
+})
+
+vhs.slow('A simple component mounted with a "slow" helper', async t => {
+  // mount component and wait for loading
+  const timerComponent = new Timer()
+  t.element.appendChild(timerComponent.element)
+  await t.onload(timerComponent.element)
+
+  // start increment by one each second
+  await t.click('button') // => count should be equal to 0
+  await t.click('button') // => count should be equal to 5
+  t.equal(timerComponent.element.querySelector('#counter').innerText, 'Count: 5')
 })
