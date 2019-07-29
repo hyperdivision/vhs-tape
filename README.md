@@ -2,6 +2,8 @@
 
 A [tape](https://github.com/substack/tape) extension for testing frontend components.
 
+![logo](logo.png)
+
 ## Usage
 
 ```js
