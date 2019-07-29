@@ -7,11 +7,12 @@ const testBody = createElement('div')
 testBody.id = 'vhs-test-body'
 document.body.appendChild(testBody)
 
-function create (delay) {
+function create (delay, fn) {
   if (!delay) delay = Number(process.env.VHS_DELAY) || 0
 
   function queueTest (description, testFn) {
-    tape(description, t => {
+    const tpe = fn ? tape[fn].bind(tape) : tape
+    tpe(description, t => {
       const testElementGroup = createElement('div')
 
       const descriptionEl = createElement('div')
@@ -35,11 +36,15 @@ function create (delay) {
   }
 
   queueTest.skip = function (description, testFn) {
-    tape.skip(description, testFn)
+    return create(0, 'skip')(description, testFn)
   }
 
   queueTest.slow = function (description, testFn) {
     return create(500)(description, testFn)
+  }
+
+  queueTest.only = function (description, testFn) {
+    return create(0, 'only')(description, testFn)
   }
 
   return queueTest
