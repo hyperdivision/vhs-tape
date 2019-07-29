@@ -78,7 +78,6 @@ vhs('A simple mounting of some html', t => {
 
 See example.js for more helper functions.
 
-
 ## See also
 
 https://github.com/choojs/choo/blob/master/index.js
@@ -86,3 +85,7 @@ https://github.com/choojs/choo
 https://github.com/choojs/nanorouter/blob/master/index.js
 https://github.com/choojs/nanohref
 https://github.com/rtsao/csjs
+
+## Contributors
+
+- [@tony-go](https://github.com/tony-go) - logo and features
