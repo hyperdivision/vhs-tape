@@ -2,6 +2,8 @@
 
 A [tape](https://github.com/substack/tape) extension for testing frontend components.
 
+![logo][logo]
+
 ## Usage
 
 ```js
@@ -76,7 +78,6 @@ vhs('A simple mounting of some html', t => {
 
 See example.js for more helper functions.
 
-
 ## See also
 
 https://github.com/choojs/choo/blob/master/index.js
@@ -84,3 +85,9 @@ https://github.com/choojs/choo
 https://github.com/choojs/nanorouter/blob/master/index.js
 https://github.com/choojs/nanohref
 https://github.com/rtsao/csjs
+
+## Contributors
+
+- [@tony-go](https://github.com/tony-go) - logo and features
+
+[logo]: https://github.com/hyperdivision/vhs-tape/raw/c7d932612a93c5682c4db601b262caa6dc2e5a25/logo.png
