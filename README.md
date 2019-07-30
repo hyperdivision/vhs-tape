@@ -78,6 +78,79 @@ vhs('A simple mounting of some html', t => {
 
 See example.js for more helper functions.
 
+## API
+
+WIP See https://github.com/hyperdivision/vhs-tape/blob/master/index.js#L53-L91
+
+Tests are written exactly like tape tests except your test body can be an async function and `t` has the following helpers.
+
+### `t.element`
+
+The HTMLElement element where your test should work inside.
+
+### `await t.sleep(ms)`
+
+Async sleepf for `ms`.
+
+### `await t.onload(element)`
+
+Wait for the element to be fully mounted and rendered into the page.
+
+```js
+const myElement = document.createElement('div')
+t.element.appendChild(myElement)
+await t.onload(myElement)
+```
+
+### `await t.unload(element)`
+
+Same as `t.onload` except it lets you wait for an element to be fully unloaded from the document.
+
+### `await t.raf()`
+
+Lets you wait for an animation frame to fire.  This gives an opportunity for the page to repaint and reflow after making modifications to the DOM.  Always waits for a RequestAnimationFrame and ignores any delay paramters.
+
+### `await t.delay()`
+
+Similar to `await t.raf()`, except this will sleep when a test delay is set, so you can watch your test in slow motion.  When no delay is set, these will revert to just a `t.raf()`.
+
+### `await t.click(elementOrQuerySelector)`
+
+Accepts a query selector string that resolves to an element or an element.  Calls `element.click()` followed by a `t.delay()`.
+
+### `await t.focus(elementOrQuerySelector)`
+
+Accepts a query selector string that resolves to an element or an element.  Calls `element.focus()` followed by a `t.delay()`.
+
+### `await t.type(string, [event])`
+
+Dispatches `new window.KeyboardEvent` defaulting to the `keydown` event, for each character in `string`.  Helpful for typing into the currently focused element on screen.  This helper is a WIP, and doesn't work everywhere.  Includes a `t.delay()` call so updates are rendered every keypress.
+
+## FAQ
+
+### How do I load global styles or assumed side effects?
+
+If your components or tests require global styles or sprite sheets to work, write a module that mounts these assets into the page as a side effect of `require`ing or `import`ing that file.  
+
+In each test, require the global style module, and your module loadig system will de-duplicate the calls to the global side-effects, and each of your tests will still work. 
+
+```js
+// global-styles.css
+const css = require('sheetify')
+css('./app.css') // Mounts global styles when global-styles.css is imported once
+// Be sure that your mounting logic can accomidate your production app and the test document
+require('./lib/mount-sprites')(document.querySelector('#sprite-container') || document.body)
+```
+
+In each test that needs these assets you would then do the following:
+
+```js
+const vhs = require('vhs-tape')
+require('../../global-styles')
+
+// vhs('The rest of your tests...
+```
+
 ## See also
 
 https://github.com/choojs/choo/blob/master/index.js
