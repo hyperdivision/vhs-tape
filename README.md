@@ -90,4 +90,4 @@ https://github.com/rtsao/csjs
 
 - [@tony-go](https://github.com/tony-go) - logo and features
 
-[logo]: logo.png
+[logo]: https://raw.githubusercontent.com/hyperdivision/vhs-tape/master/logo.png
