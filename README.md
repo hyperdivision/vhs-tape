@@ -84,6 +84,22 @@ WIP See https://github.com/hyperdivision/vhs-tape/blob/master/index.js#L53-L91
 
 Tests are written exactly like tape tests except your test body can be an async function and `t` has the following helpers.
 
+### `vhs = require('vhs-tape')`
+
+Import the vhs test function.  Works almost identically to `tape`, except your test function can be async.  Async test bodies do not need to call `t.done()`, simply return from the async test body, or throw.
+
+### `vhs(description, async testFn)`
+
+Describe your test with a `description` string, and pass an async `testFn` which receives the `t` assertion variable.  This assertion variable includes all of the `tape` helpers, with a few extras that are helpful for testig dom elements and components.
+
+### `vhs.delay(ms)(description, async testFn)`
+
+### `vhs.slow(description, async testFn)`
+
+### `vhs.skip(description, async testFn)`
+
+### `vhs.only(description, async testFn)`
+
 ### `t.element`
 
 The HTMLElement element where your test should work inside.
