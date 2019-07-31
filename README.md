@@ -104,6 +104,15 @@ Describe your test with a `description` string, and pass an async `testFn` which
 
 The HTMLElement element where your test should work inside.
 
+### `await t.appendChild(el)`
+
+Takes an element, append it and then waits for onload.
+```js
+const newDiv = document.createElement('div')
+newDiv.innerText = 'New div to append'
+await t.appendChild(newDiv)
+```
+
 ### `await t.sleep(ms)`
 
 Async sleepf for `ms`.

@@ -44,3 +44,13 @@ vhs.slow('A simple component mounted with a "slow" helper', async t => {
   await t.click('button') // => count should be equal to 5
   t.equal(timerComponent.element.querySelector('#counter').innerText, 'Count: 5')
 })
+
+vhs('A simple appended div in a simple html component', async t => {
+  const component = new Simple('Test of t.appendChild()')
+  await t.appendChild(component.element)
+
+  // append a new div
+  const newDiv = document.createElement('div')
+  newDiv.innerText = 'New div to append'
+  await t.appendChild(newDiv)
+})
