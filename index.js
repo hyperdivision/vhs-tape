@@ -91,8 +91,7 @@ function create (delay, fn) {
       async appendChild (el) {
         if (!el) return
         t.element.appendChild(el)
-        await t.onload(el)
-        return t.delay()
+        return t.onload(el)
       }
     })
 
