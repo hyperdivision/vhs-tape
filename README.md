@@ -167,6 +167,8 @@ require('../../global-styles')
 // vhs('The rest of your tests...
 ```
 
+Additionally, you can always load a test bundle into a page with styles and spritesheets already mounted, or utilize features in your bundler to hande that insertion for you. 
+
 ## See also
 
 https://github.com/choojs/choo/blob/master/index.js
