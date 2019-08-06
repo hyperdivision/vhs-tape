@@ -6,6 +6,8 @@ A [tape](https://github.com/substack/tape) extension for testing frontend compon
 
 ## Usage
 
+### Code example
+
 ```js
 const vhs = require('vhs-tape')
 const MorphComponent = require('hui/morph')
@@ -78,6 +80,30 @@ vhs('A simple mounting of some html', t => {
 
 See example.js for more helper functions.
 
+### Run your code
+
+_Note_ : You have to install one of those dependencies before running the command line.
+
+#### With [budo](https://github.com/mattdesl/budo)
+
+```
+budo --live --open example.js
+```
+
+#### With [nanotron](https://github.com/hyperdivision/nanotron)
+
+```
+nanotron example.js
+```
+
+#### With [tape-run](https://github.com/juliangruber/tape-run) (and browserify)
+
+Tape-run documentation invite us to use [browserify](https://github.com/browserify/browserify)
+
+```
+browserify example.js | tape-run
+```
+
 ## API
 
 WIP See https://github.com/hyperdivision/vhs-tape/blob/master/index.js#L53-L91
@@ -103,6 +129,15 @@ Describe your test with a `description` string, and pass an async `testFn` which
 ### `t.element`
 
 The HTMLElement element where your test should work inside.
+
+### `await t.appendChild(el)`
+
+Takes an element, append it and then waits for onload.
+```js
+const newDiv = document.createElement('div')
+newDiv.innerText = 'New div to append'
+await t.appendChild(newDiv)
+```
 
 ### `await t.sleep(ms)`
 

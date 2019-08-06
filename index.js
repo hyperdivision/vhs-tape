@@ -87,6 +87,11 @@ function create (delay, fn) {
           el.dispatchEvent(new window.KeyboardEvent(event || 'keydown', { key: c }))
         }
         return t.delay()
+      },
+      async appendChild (el) {
+        if (!el) return
+        t.element.appendChild(el)
+        return t.onload(el)
       }
     })
 
