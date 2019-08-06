@@ -116,34 +116,42 @@ Import the vhs test function.  Works almost identically to `tape`, except your t
 
 ### `vhs(description, async testFn)`
 
-Describe your test with a `description` string, and pass an async `testFn` which receives the `t` assertion variable.  This assertion variable includes all of the `tape` helpers, with a few extras that are helpful for testig dom elements and components.
+Describe your test with a `description` string, and pass an async `testFn` which receives the `t` assertion variable.  This assertion variable includes all of the `tape` helpers, with a few extras that are helpful for testing dom elements and components.
 
 ### `vhs.delay(ms)(description, async testFn)`
 
+Delay all vhs-test helpers by `ms`, unless otherwise noted in the test helper description.
+
 ### `vhs.slow(description, async testFn)`
+
+Shorthand for `vhs.delay(500)`.
 
 ### `vhs.skip(description, async testFn)`
 
+Same as `tape` `t.skip`.
+
 ### `vhs.only(description, async testFn)`
+
+Same as `tape` `t.only`.
 
 ### `t.element`
 
 The HTMLElement element where your test should work inside.
 
-### `await t.appendChild(el)`
+### `await t.appendChild(el, [msg])`
 
-Takes an element, append it and then waits for onload.
+Takes an element, append it and then waits for onload.  Asserts when complete with a `msg`.
 ```js
 const newDiv = document.createElement('div')
 newDiv.innerText = 'New div to append'
-await t.appendChild(newDiv)
+await t.appendChild(newDiv, 'Appended newDiv')
 ```
 
-### `await t.sleep(ms)`
+### `await t.sleep(ms, [msg])`
 
-Async sleepf for `ms`.
+Async sleep for `ms` and asserts when complete with `msg`.
 
-### `await t.onload(element)`
+### `await t.onload(element, [msg])`
 
 Wait for the element to be fully mounted and rendered into the page.
 
@@ -153,37 +161,45 @@ t.element.appendChild(myElement)
 await t.onload(myElement)
 ```
 
-### `await t.unload(element)`
+### `await t.unload(element, [msg])`
 
 Same as `t.onload` except it lets you wait for an element to be fully unloaded from the document.
 
-### `await t.raf()`
+### `await t.raf([msg])`
 
-Lets you wait for an animation frame to fire.  This gives an opportunity for the page to repaint and reflow after making modifications to the DOM.  Always waits for a RequestAnimationFrame and ignores any delay paramters.
+Lets you wait for an animation frame to fire.  This gives an opportunity for the page to repaint and reflow after making modifications to the DOM.  Always waits for a RequestAnimationFrame and ignores any delay parameters.  Only asserts when passed a `msg`. Does not insert additional delays.
 
-### `await t.delay()`
+### `await t.delay([msg])`
 
-Similar to `await t.raf()`, except this will sleep when a test delay is set, so you can watch your test in slow motion.  When no delay is set, these will revert to just a `t.raf()`.
+Similar to `await t.raf()`, except this will sleep when a test delay is set, so you can watch your test in slow motion.  When no delay is set, these will revert to just a `t.raf()`.  Only asserts when passed a `msg`.
 
-### `await t.click(elementOrQuerySelector)`
+### `await t.click(elementOrQuerySelector, [msg])`
 
 Accepts a query selector string that resolves to an element or an element.  Calls `element.click()` followed by a `t.delay()`.
 
-### `await t.focus(elementOrQuerySelector)`
+### `await t.focus(elementOrQuerySelector, [msg])`
 
 Accepts a query selector string that resolves to an element or an element.  Calls `element.focus()` followed by a `t.delay()`.
 
-### `await t.type(string, [event])`
+### `await t.type(string, [event], [msg])`
 
 Dispatches `new window.KeyboardEvent` defaulting to the `keydown` event, for each character in `string`.  Helpful for typing into the currently focused element on screen.  This helper is a WIP, and doesn't work everywhere.  Includes a `t.delay()` call so updates are rendered every keypress.
 
+### `await once(emitter, name, [msg])`
+
+Shortcut to use [`'events.once'`](https://github.com/davidmarkclements/events.once#readme), which is useful for catching events as promises.
+
 ## FAQ
+
+### How do I run vhs-tests?
+
+`vhs-tests` are geared towards a Node.js style common.js environment, so you will need a bundler like browserify or webpack to bundle them into the browser or an electron app.
 
 ### How do I load global styles or assumed side effects?
 
-If your components or tests require global styles or sprite sheets to work, write a module that mounts these assets into the page as a side effect of `require`ing or `import`ing that file.  
+If your components or tests require global styles or sprite sheets to work, write a module that mounts these assets into the page as a side effect of `require`ing or `import`ing that file.
 
-In each test, require the global style module, and your module loadig system will de-duplicate the calls to the global side-effects, and each of your tests will still work. 
+In each test, require the global style module, and your module loading system will de-duplicate the calls to the global side-effects, and each of your tests will still work.
 
 ```js
 // global-styles.css
@@ -202,15 +218,8 @@ require('../../global-styles')
 // vhs('The rest of your tests...
 ```
 
-Additionally, you can always load a test bundle into a page with styles and spritesheets already mounted, or utilize features in your bundler to hande that insertion for you. 
+Additionally, you can always load a test bundle into a page with styles and spritesheets already mounted, or utilize features in your bundler to hande that insertion for you.
 
-## See also
-
-https://github.com/choojs/choo/blob/master/index.js
-https://github.com/choojs/choo
-https://github.com/choojs/nanorouter/blob/master/index.js
-https://github.com/choojs/nanohref
-https://github.com/rtsao/csjs
 
 ## Contributors
 

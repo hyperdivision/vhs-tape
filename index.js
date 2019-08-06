@@ -1,5 +1,6 @@
 const tape = require('tape')
 const onload = require('fast-on-load')
+const once = require('events.once')
 
 const createElement = document.createElement.bind(document)
 
@@ -50,48 +51,80 @@ function create (delay, fn) {
   return queueTest
 
   function createTestHarness (t, element) {
+    const tOnce = t.once
     return Object.assign(t, {
       element,
-      sleep: ms => new Promise((resolve) => setTimeout(resolve, ms)),
-      onload: node => new Promise(resolve => {
+      sleep: (ms, msg) => {
+        msg = msg || `Sleep for ${ms}ms`
+        const sleepPromise = new Promise((resolve) => setTimeout(resolve, ms))
+        return sleepPromise.then(() => t.pass(msg))
+      },
+      onload: (node, msg = 'Element onload') => new Promise(resolve => {
         const resolveFn = () => {
           onload.delete(node, resolveFn)
-          t.delay().then(resolve)
+          t.delay().then(() => {
+            t.pass(msg)
+            resolve()
+          })
         }
         node.isConnected ? resolveFn() : onload(node, resolveFn)
       }),
-      unload: node => new Promise(resolve => {
+      unload: (node, msg = 'Element unload') => new Promise(resolve => {
         const resolveFn = () => {
           onload.delete(node, undefined, resolveFn)
-          t.delay().then(resolve)
+          t.delay().then(() => {
+            t.pass(msg)
+            resolve()
+          })
         }
         !node.isConnected ? resolveFn() : onload(node, undefined, resolveFn)
       }),
-      raf: () => new Promise(resolve => window.requestAnimationFrame(() => resolve())),
-      delay () {
-        return delay ? t.sleep(delay) : t.raf()
+      raf: (msg) => {
+        const rafPromise = new Promise(resolve => window.requestAnimationFrame(() => resolve()))
+        return msg ? rafPromise.then(() => t.pass(msg)) : rafPromise
       },
-      click (stringOrElement) {
+      delay (msg) {
+        const delayPromise = delay ? t.sleep(delay) : t.raf()
+        return msg ? delayPromise.then(() => t.pass(msg)) : delayPromise
+      },
+      click (stringOrElement, msg) {
+        msg = msg || `Clicked on ${typeof stringOrElement === 'string' ? stringOrElement : 'element'}`
         toElement(stringOrElement).click()
-        return t.delay()
+        return t.delay().then(() => t.pass(msg))
       },
-      focus (stringOrElement) {
+      focus (stringOrElement, msg) {
+        msg = msg || `Focused on ${typeof stringOrElement === 'string' ? stringOrElement : 'element'}`
         toElement(stringOrElement).focus()
-        return t.delay()
+        return t.delay().then(() => t.pass(msg))
       },
-      async type (str, event) {
+      async type (str, event, msg) {
+        if (typeof event === 'string' && !msg) {
+          msg = event
+          event = null
+        }
+        msg = msg || `Typed ${str}`
         for (const c of str.split('')) {
           const el = t.element.querySelector(':focus')
           if (!el) return
           await t.delay()
           el.dispatchEvent(new window.KeyboardEvent(event || 'keydown', { key: c }))
         }
-        return t.delay()
+        return t.delay().then(() => t.pass(msg))
       },
-      async appendChild (el) {
-        if (!el) return
+      appendChild (el, msg = 'Appended child to test element') {
         t.element.appendChild(el)
-        return t.onload(el)
+        return t.onload(el, msg).then(t.delay)
+      },
+      once (emitter, name, msg) {
+        // t is expected to be an event emitter
+        if (typeof emitter === 'string') return tOnce.call(t, emitter, name)
+        msg = msg || `${name} event emitted`
+        return once(emitter, name).then(results => {
+          return t.delay().then(() => {
+            t.pass(msg)
+            return results
+          })
+        })
       }
     })
 
