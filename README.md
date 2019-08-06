@@ -185,6 +185,10 @@ Accepts a query selector string that resolves to an element or an element.  Call
 
 Dispatches `new window.KeyboardEvent` defaulting to the `keydown` event, for each character in `string`.  Helpful for typing into the currently focused element on screen.  This helper is a WIP, and doesn't work everywhere.  Includes a `t.delay()` call so updates are rendered every keypress.
 
+### `await t.typeValue(elementOrQuerySelector, string, [msg])`
+
+Sumulate typing to an `elementOrQuerySelector` by repeatedly setting the value and waiting for a delay.
+
 ### `await once(emitter, name, [msg])`
 
 Shortcut to use [`'events.once'`](https://github.com/davidmarkclements/events.once#readme), which is useful for catching events as promises.

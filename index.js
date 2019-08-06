@@ -111,6 +111,15 @@ function create (delay, fn) {
         }
         return t.delay().then(() => t.pass(msg))
       },
+      async typeValue (stringOrElement, str, msg) {
+        msg = msg || `Typed by value ${str}${typeof stringOrElement === 'string' ? ` to ${stringOrElement}` : ''}`
+        const el = toElement(stringOrElement)
+        for (const c of str.split('')) {
+          await t.delay()
+          el.value = el.value != null ? el.value + c : c
+        }
+        return t.delay().then(() => t.pass(msg))
+      },
       appendChild (el, msg = 'Appended child to test element') {
         t.element.appendChild(el)
         return t.onload(el, msg).then(t.delay)
