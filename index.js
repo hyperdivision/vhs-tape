@@ -59,7 +59,7 @@ function create (delay, fn) {
         const sleepPromise = new Promise((resolve) => setTimeout(resolve, ms))
         return sleepPromise.then(() => t.pass(msg))
       },
-      onload: (node, msg = 'Element onload') => new Promise(resolve => {
+      onload: (node, msg = 'Element loaded into test element') => new Promise(resolve => {
         const resolveFn = () => {
           onload.delete(node, resolveFn)
           t.delay().then(() => {
@@ -69,7 +69,7 @@ function create (delay, fn) {
         }
         node.isConnected ? resolveFn() : onload(node, resolveFn)
       }),
-      unload: (node, msg = 'Element unload') => new Promise(resolve => {
+      onunload: (node, msg = 'Element unloaded from test element') => new Promise(resolve => {
         const resolveFn = () => {
           onload.delete(node, undefined, resolveFn)
           t.delay().then(() => {
@@ -123,6 +123,11 @@ function create (delay, fn) {
       appendChild (el, msg = 'Appended child to test element') {
         t.element.appendChild(el)
         return t.onload(el, msg).then(t.delay)
+      },
+      removeChild (el, msg = 'Removed child from test element') {
+        const unloadP = t.onload(el, msg).then(t.delay)
+        t.element.removeChild(el)
+        return unloadP
       },
       once (emitter, name, msg) {
         // t is expected to be an event emitter
