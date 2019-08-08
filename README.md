@@ -138,9 +138,9 @@ Same as `tape` `t.only`.
 
 The HTMLElement element where your test should work inside.
 
-### `await t.appendChild(el, [msg])`
+### `await t.appendChild([parentElOrQuery], el, [msg])`
 
-Takes an element, append it and then waits for onload.  Asserts when complete with a `msg`.
+Takes an element `el`, append it and then waits for onload.  You can also pass a different parent element or query selector `parentElOrQuery` to append to.  Asserts when complete with a `msg`.
 
 ```js
 const newDiv = document.createElement('div')
@@ -148,9 +148,9 @@ newDiv.innerText = 'New div to append'
 await t.appendChild(newDiv, 'Appended newDiv')
 ```
 
-### `await t.removeChild(el, [msg])`
+### `await t.removeChild(elementOrQuerySelector, [msg])`
 
-Takes a loaded element `el` and removes it from the test element and then waits for onunload.  Asserts when complete with a `msg`.
+Takes a loaded element `el` or query selector and removes it from its parent element and then waits for onunload.  Asserts when complete with a `msg`.
 
 ### `await t.sleep(ms, [msg])`
 

@@ -120,14 +120,16 @@ function create (delay, fn) {
         }
         return t.delay().then(() => t.pass(msg))
       },
-      appendChild (el, msg = 'Appended child to test element') {
-        t.element.appendChild(el)
-        return t.onload(el, msg).then(t.delay)
+      appendChild (parentElOrQuery, el, msg = 'Appended child to test element') {
+        let parentEl = arguments.length >= 3 ? toElement(parentElOrQuery) : t.element
+        let childEl = arguments.length >= 3 ? el : parentElOrQuery
+        parentEl.appendChild(childEl)
+        return t.onload(childEl, msg).then(t.delay)
       },
-      removeChild (el, msg = 'Removed child from test element') {
-        const unloadP = t.onload(el, msg).then(t.delay)
-        t.element.removeChild(el)
-        return unloadP
+      removeChild (stringOrElement, msg = 'Removed child from its parent element') {
+        const el = toElement(stringOrElement)
+        el.remove()
+        return t.onunload(el, msg).then(t.delay)
       },
       once (emitter, name, msg) {
         // t is expected to be an event emitter
