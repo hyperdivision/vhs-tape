@@ -141,11 +141,16 @@ The HTMLElement element where your test should work inside.
 ### `await t.appendChild(el, [msg])`
 
 Takes an element, append it and then waits for onload.  Asserts when complete with a `msg`.
+
 ```js
 const newDiv = document.createElement('div')
 newDiv.innerText = 'New div to append'
 await t.appendChild(newDiv, 'Appended newDiv')
 ```
+
+### `await t.removeChild(el, [msg])`
+
+Takes a loaded element `el` and removes it from the test element and then waits for onunload.  Asserts when complete with a `msg`.
 
 ### `await t.sleep(ms, [msg])`
 
@@ -161,7 +166,7 @@ t.element.appendChild(myElement)
 await t.onload(myElement)
 ```
 
-### `await t.unload(element, [msg])`
+### `await t.onunload(element, [msg])`
 
 Same as `t.onload` except it lets you wait for an element to be fully unloaded from the document.
 
