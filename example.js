@@ -53,4 +53,5 @@ vhs('A simple appended div in a simple html component', async t => {
   const newDiv = document.createElement('div')
   newDiv.innerText = 'New div to append'
   await t.appendChild(newDiv)
+  await t.removeChild(newDiv, 'Removed child from test element')
 })
