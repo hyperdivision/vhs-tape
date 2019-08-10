@@ -234,4 +234,4 @@ Additionally, you can always load a test bundle into a page with styles and spri
 
 - [@tony-go](https://github.com/tony-go) - logo and features
 
-[logo]: https://raw.githubusercontent.com/hyperdivision/vhs-tape/master/logo.png
+[logo]: https://user-images.githubusercontent.com/22824417/62730546-766bb200-ba20-11e9-9149-9719ac3f7879.png
