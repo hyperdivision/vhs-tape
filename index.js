@@ -97,6 +97,11 @@ function create (delay, fn) {
         toElement(stringOrElement).focus()
         return t.delay().then(() => t.pass(msg))
       },
+      blur (stringOrElement, msg) {
+        msg = msg || `Blurred from ${typeof stringOrElement === 'string' ? stringOrElement : 'element'}`
+        toElement(stringOrElement).blur()
+        return t.delay().then(() => t.pass(msg))
+      },
       async type (str, event, msg) {
         if (typeof event === 'string' && !msg) {
           msg = event
