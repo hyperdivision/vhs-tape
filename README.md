@@ -186,6 +186,10 @@ Accepts a query selector string that resolves to an element or an element.  Call
 
 Accepts a query selector string that resolves to an element or an element.  Calls `element.focus()` followed by a `t.delay()`.
 
+### `await t.blur(elementOrQuerySelector, [msg])`
+
+Accepts a query selector string that resolves to an element or an element.  Calls `element.blur()` followed by a `t.delay()`.
+
 ### `await t.type(string, [event], [msg])`
 
 Dispatches `new window.KeyboardEvent` defaulting to the `keydown` event, for each character in `string`.  Helpful for typing into the currently focused element on screen.  This helper is a WIP, and doesn't work everywhere.  Includes a `t.delay()` call so updates are rendered every keypress.
