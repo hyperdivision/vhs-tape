@@ -2,17 +2,13 @@ dist: xenial
 language: node_js
 node_js:
 - node
-addons:
-  apt:
-    packages:
-    - xvfb
+services:
+  - xvfb
 cache: npm
 install:
-- export DISPLAY=':99.0'
-- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 - npm i
 script:
-- npm test
+- xvfb-run --auto-servernum npm test
 deploy:
   email:
     secure: Zl2ZhAToi4TySlvClw77LsWByM+luBUKmuG9Dwqo7f5bYrqUGzvfH8s2qOciSUMwhsybFE5C+PuxmnVO4sEgX6v7Ps0MqLsvC5vLud0VyP+WMfezL+zonCq7IRe02ASfGHDI75NYZ0jHyMHyD39Qw6JB6lfrPfhyIWoTM6gRWDvNeoWumkTGRdEpEh7gjMNyv428WIUblpL9QX1p4avaR0EXQHnrWXC6S2y2u5Rc0XAbVyawSUCwwAx+wdGxvvk3GNeIvUHeAvu/1oK1F2OTpC4r5i/InTusPrCfBHR93ysLFGSDoOLDOmeByobrF3OdYLe4neLP3M25cQ7D+3ygfSIDconcs+N569cajltINWKaDVrP8B3xe4Jvq6UvfrbHr/Yb5V9p+NvTl422cSx3SmJJG7KZabhGwkYkjpkDH079l+i9mZYo+qWVwf4iYNew7kleKzg9dHSoWmLRwkqDKC1H0berKAvU2lZ4XORwSYyWzYt04khYzuQwZl4qpWjLP66lRw5M4eqVUUyzE7gpp6URnY1GNCOE8PrIS0RLGzD/uq3Sse17Fe4MZkjvEn0/qlaDcf4+fKJKnw4fpJgdR66WoMqf0k2neUCPwbyR8lgXCCE13+VO/sI777AcA5qPqSaV9Fbskjb7yBlu4CBJ1gq3w2C8rZWOU9MY+UDSIZg=
