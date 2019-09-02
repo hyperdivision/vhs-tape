@@ -6,7 +6,7 @@ A [tape](https://github.com/substack/tape) extension for testing frontend compon
 
 ## Usage
 
-### Code example
+### Writing tests
 
 ```js
 const vhs = require('vhs-tape')
@@ -79,6 +79,16 @@ vhs('A simple mounting of some html', t => {
 ```
 
 See example.js for more helper functions.
+
+### Running tests
+
+You can run your tests headless witht the CLI:
+
+```console
+vhs-tape test.js
+# or
+vhs-tape '**/*.some.glob.js'
+```
 
 ### Run your code
 
