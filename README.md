@@ -202,6 +202,29 @@ Sumulate typing to an `elementOrQuerySelector` by repeatedly setting the value a
 
 Shortcut to use [`'events.once'`](https://github.com/davidmarkclements/events.once#readme), which is useful for catching events as promises.
 
+
+## CLI
+
+VSH-Tape ships with a headless test runner that utilizes [browserify](https://github.com/browserify/browserify) and [tape-run](https://github.com/juliangruber/tape-run).
+
+Pass a [glob](https://github.com/isaacs/node-glob) string, or series of glob strings as arguments to locate test files. [Browserify flags](https://github.com/browserify/browserify#usage) are passed at the end after the `--` and tape-run opts are passed as a [`subarg`]() under the `--tape-run` flag.  **Note**: tape-run opts are not aliased.  Refer to the [tape-run README](https://github.com/juliangruber/tape-run#runopts) to see the available options.
+
+If no file glob is passed, the default `'**/*.vhs.js'` is used.  Ensure that you quote your file globs so that your CLI doesn't try to perform a depth limited globbing search instead of the built in globber.
+
+```
+Usage:
+  vhs-tape '**/*.vhs.js' [opts] --tape-run [tape-run opts] -- [browserify opts]
+
+Options:
+  --help, -h                show help message
+  --version                 show version
+  --tape-run                tape-run subargs
+  --ignore                  file globs to ignore default: node_modules/** .git/**
+  -- [browserify options]   raw flags to pass to browserify
+```
+
+WIP: Interactive test runner
+
 ## FAQ
 
 ### How do I run vhs-tests?

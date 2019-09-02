@@ -1,27 +1,48 @@
 #!/usr/bin/env node
 
 const resolvePath = require('path').resolve
-const parseOpts = require('minimist')
+const subarg = require('subarg')
 const glob = require('glob')
 const browserify = require('browserify')
 const fromArgs = require('browserify/bin/args')
 const run = require('tape-run')
 const pump = require('pump')
+const pkg = require('./package.json')
 
 let args = process.argv.slice(2)
 
-const opts = parseOpts(args, {
+const opts = subarg(args, {
   '--': true,
+  default: {
+    ignore: ['node_modules/**', '.git/**']
+  },
   alias: {
-    wait: 'w',
-    port: 'p',
-    static: 's',
-    browser: 'b',
-    render: 'r',
-    'keep-open': ['k', 'keepOpen'],
-    node: ['n', 'node-integration', 'nodeIntegration']
+    version: ['v'],
+    help: ['h']
   }
 })
+
+if (opts.help) {
+  console.log(`Usage:
+  vhs-tape '**/*.vhs.js' [opts] --tape-run [tape-run opts] -- [browserify opts]
+
+Options:
+  --help, -h                show help message
+  --version                 show version
+  --tape-run                tape-run subargs
+  --ignore                  file globs to ignore default: 'node_modules/** .git/**'
+  -- [browserify options]   raw flags to pass to browserify`)
+  process.exit(0)
+}
+
+if (opts.version) {
+  console.log(`vhs-tape v${pkg.version}`)
+  process.exit(0)
+}
+
+if (opts._.length < 1) {
+  opts._.push('**/*.vhs.js')
+}
 
 const cwd = process.cwd()
 
@@ -31,7 +52,7 @@ opts._.forEach(function (arg) {
   // If glob does not match, `files` will be an empty array.
   // Note: `glob.sync` may throw an error and crash the node process.
   var files = glob.sync(arg, {
-    ignore: ['node_modules/**', '.git/**']
+    ignore: opts.ignore
   })
 
   if (!Array.isArray(files)) {
@@ -43,10 +64,13 @@ opts._.forEach(function (arg) {
   })
 })
 
-const browserifyArgs = opts['--']
+if (Array.from(fileSet).length < 1) {
+  console.error('No tests found')
+  process.exit(1)
+}
 
-delete opts['--']
-delete opts._
+const browserifyArgs = opts['--']
+const tapeRunOpts = opts['tape-run']
 
 let bundler
 if (browserifyArgs && Array.isArray(browserifyArgs)) {
@@ -59,11 +83,14 @@ if (browserifyArgs && Array.isArray(browserifyArgs)) {
   bundler = browserify(Array.from(fileSet))
 }
 
-const tapeRun = run(opts)
+const tapeRun = run(tapeRunOpts)
 tapeRun.on('results', (results) => {
   process.exit(Number(!results.ok))
 })
 
 pump(bundler.bundle(), tapeRun, process.stdout, (err) => {
-  if (err) console.error(err)
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  }
 })
