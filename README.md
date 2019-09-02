@@ -217,7 +217,7 @@ Shortcut to use [`'events.once'`](https://github.com/davidmarkclements/events.on
 
 VSH-Tape ships with a headless test runner that utilizes [browserify](https://github.com/browserify/browserify) and [tape-run](https://github.com/juliangruber/tape-run).
 
-Pass a [glob](https://github.com/isaacs/node-glob) string, or series of glob strings as arguments to locate test files. [Browserify flags](https://github.com/browserify/browserify#usage) are passed at the end after the `--` and tape-run opts are passed as a [`subarg`]() under the `--tape-run` flag.  **Note**: tape-run opts are not aliased.  Refer to the [tape-run README](https://github.com/juliangruber/tape-run#runopts) to see the available options.
+Pass a [glob](https://github.com/isaacs/node-glob) string, or series of glob strings as arguments to locate test files. [Browserify flags](https://github.com/browserify/browserify#usage) are passed at the end after the `--` and tape-run opts are passed as a [`subarg`](https://github.com/substack/subarg) under the `--tape-run` flag.  **Note**: tape-run opts are not aliased.  Refer to the [tape-run README](https://github.com/juliangruber/tape-run#runopts) to see the available options.
 
 If no file glob is passed, the default `'**/*.vhs.js'` is used.  Ensure that you quote your file globs so that your CLI doesn't try to perform a depth limited globbing search instead of the built in globber.
 
