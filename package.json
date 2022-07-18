@@ -15,7 +15,7 @@
     "pump": "^3.0.0",
     "subarg": "^1.0.0",
     "tape": "^4.6.2",
-    "tape-run": "^6.0.1"
+    "tape-run": "^10.0.0"
   },
   "devDependencies": {
     "budo": "^11.6.2",
