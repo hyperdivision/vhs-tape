@@ -1,7 +1,7 @@
 {
   "name": "vhs-tape",
   "description": "A test harness for browser elements and components",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "author": "Bret Comnes <bcomnes@gmail.com> (https://bret.io/)",
   "bugs": {
     "url": "https://github.com/hyperdivision/vhs-tape/issues"
